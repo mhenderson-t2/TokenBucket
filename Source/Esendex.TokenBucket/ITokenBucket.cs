@@ -34,5 +34,12 @@ namespace Esendex.TokenBucket
         /// </summary>
         /// <param name="numTokens">The number of tokens to consume from the bucket, must be a positive number.</param>
         void Consume(long numTokens);
+
+        /// <summary>
+        /// Sometimes the bucket is half-used before we start counting. This allows us
+        /// to account for this in the beginning.
+        /// </summary>
+        /// <param name="numTokens">The number of tokens to set the bucket size to.</param>
+        void SetRemainingTokens(long numTokens);
     }
 }

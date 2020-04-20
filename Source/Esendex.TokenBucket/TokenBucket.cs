@@ -24,6 +24,16 @@ namespace Esendex.TokenBucket
         private long _size;
         private readonly object _syncRoot = new object();
 
+        /// <summary>
+        /// Sometimes the bucket is half-used before we start counting. This allows us
+        /// to account for this in the beginning.
+        /// </summary>
+        public void SetRemainingTokens(long numTokens)
+        {
+            _refillStrategy.Refill();
+            _size = numTokens;
+        }
+
         public TokenBucket(long capacity, IRefillStrategy refillStrategy, ISleepStrategy sleepStrategy)
         {
             _capacity = capacity;
