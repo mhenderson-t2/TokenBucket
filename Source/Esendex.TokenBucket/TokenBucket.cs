@@ -30,8 +30,9 @@ namespace Esendex.TokenBucket
         /// </summary>
         public void SetRemainingTokens(long numTokens)
         {
-            _refillStrategy.Refill();
-            _size = numTokens;
+            lock (_syncRoot)
+                _refillStrategy.Refill();
+                _size = numTokens;
         }
 
         public TokenBucket(long capacity, IRefillStrategy refillStrategy, ISleepStrategy sleepStrategy)
